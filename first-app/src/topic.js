@@ -5,7 +5,9 @@ var sanitizeHtml = require("sanitize-html"); // remove dangerous scripting part 
 
 exports.home = function (req, res) {
 	connection.query(`SELECT * FROM topic`, (err, results) => {
-		if (err) throw err; // if error occurs, console prints the error and this app stops.
+		if (err) return next(err);
+		// Errors will be passed to Express.
+		// Starting with Express 5, route handlers and middleware that return a Promise will call next(value) automatically when they reject or throw an error.
 
 		const title = "Welcome";
 		const data = "Hello node.js";
