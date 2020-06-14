@@ -13,7 +13,9 @@ exports.home = function (req, res) {
 		const html = template.getHTML(
 			title,
 			list,
-			`<h2>${title}</h2><p>${data}</p>`,
+			`<h2>${title}</h2>
+			<div><img src="/img/hello.jpg" style="width:300px;display:block;margin:5px auto;"/></div>
+			<p>${data}</p>`,
 			`<a href="/create">create</a>`
 		);
 		// res.writeHead(200);
