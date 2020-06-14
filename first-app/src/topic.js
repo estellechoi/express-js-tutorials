@@ -18,7 +18,7 @@ exports.home = function (req, res) {
 			`<h2>${title}</h2>
 			<div><img src="/img/hello.jpg" style="width:300px;display:block;margin:5px auto;"/></div>
 			<p>${data}</p>`,
-			`<a href="/create">create</a>`
+			`<a href="/topic/create">create</a>`
 		);
 		// res.writeHead(200);
 		// res.end(html);
@@ -28,13 +28,13 @@ exports.home = function (req, res) {
 
 exports.page = function (req, res) {
 	connection.query(`SELECT * FROM topic`, (err, topics) => {
-		if (err) throw err;
+		if (err) return next(err);
 		// using ? in sql query blocks possible hacking attempts.
 		connection.query(
 			`SELECT * FROM topic LEFT JOIN author ON topic.author_id = author.id WHERE topic.id = ?`,
 			[queryData.id],
 			(err, results) => {
-				if (err) throw err;
+				if (err) return next(err);
 				if (!results.length) return res.writeHead(200);
 
 				const title = results[0].title;
@@ -48,9 +48,9 @@ exports.page = function (req, res) {
 					`<h2>${sanitizeHtml(title)}</h2>
                     <p class="sub_info">Author: ${sanitizeHtml(author)}</p>
                     <p class="para">${sanitizeHtml(data)}</p>`,
-					`<a href="/create">create</a>
-                        <a href="/update?id=${queryData.id}">update</a>
-                        <form action="/delete_process" method="post">
+					`<a href="/topic/create">create</a>
+                        <a href="/topic/update?id=${queryData.id}">update</a>
+                        <form action="/topic/delete_process" method="post">
                             <input type="hidden" name="id" value="${queryData.id}">
                             <input type="submit" value="delete">
                         </form>`
@@ -65,7 +65,7 @@ exports.page = function (req, res) {
 
 exports.create = function (req, res) {
 	connection.query(`SELECT * FROM topic`, (err, topics) => {
-		if (err) throw err;
+		if (err) return next(err);
 
 		const title = "<div>Create</div>";
 		console.log(title);
@@ -74,7 +74,7 @@ exports.create = function (req, res) {
 			title,
 			list,
 			`
-            <form action="/create_process" method="post">
+            <form action="/topic/create_process" method="post">
                 <input type="text" name="name" placeholder="User name"><br>
                 <input type="text" name="profile" placeholder="Introduce yourself."><br>
                 <input type="text" name="title" placeholder="Title"><br>
@@ -103,18 +103,18 @@ exports.createProcess = function (req, res) {
 			`INSERT INTO author (name, profile) VALUES (?, ?)`,
 			[name, profile],
 			(err) => {
-				if (err) throw err;
+				if (err) return next(err);
 
 				connection.query(
 					`SELECT id FROM author WHERE name = ? and profile = ?`,
 					[name, profile],
 					(err, results) => {
-						if (err) throw err;
+						if (err) return next(err);
 						if (!results.length)
 							// return res.writeHead(302, {
 							// 	Location: `/create`,
 							// });
-							return "/create";
+							return "/topic/create";
 
 						const userId = results[0].id;
 
@@ -122,7 +122,7 @@ exports.createProcess = function (req, res) {
 							`INSERT INTO topic (title, description, created, author_id) VALUES (?, ?, NOW(), ?)`,
 							[titleFiltered, description, userId],
 							(err, results) => {
-								if (err) throw err;
+								if (err) return next(err);
 
 								// res.writeHead(302, {
 								// 	Location: `/?id=${results.insertId}`,
@@ -140,14 +140,14 @@ exports.createProcess = function (req, res) {
 
 exports.update = function (req, res) {
 	connection.query(`SELECT * FROM topic`, (err, topics) => {
-		if (err) throw err;
+		if (err) return next(err);
 
 		const idFiltered = path.parse(queryData.id).base;
 		connection.query(
 			`SELECT * FROM topic WHERE id = ?`,
 			[idFiltered],
 			(error, results) => {
-				if (error) throw error;
+				if (err) return next(err);
 
 				if (results.length) {
 					const res = results[0];
@@ -191,7 +191,7 @@ exports.updateProcess = function (req, res) {
 		`UPDATE topic SET title = ?, description = ? WHERE id = ?`,
 		[titleFiltered, description, idFiltered],
 		(err) => {
-			if (err) throw err;
+			if (err) return next(err);
 
 			// res.writeHead(302, {
 			// 	Location: `/?id=${idFiltered}`,
@@ -208,7 +208,7 @@ exports.deleteProcess = function (req, res) {
 	const idFiltered = path.parse(id).base; // 요청 id 필터링 (보안처리)
 
 	connection.query(`DELETE FROM topic WHERE id = ?`, [idFiltered], (err) => {
-		if (err) throw err;
+		if (err) return next(err);
 		// res.writeHead(302, { Location: `/` });
 		// res.end();
 		return "/";
