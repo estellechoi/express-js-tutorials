@@ -3,7 +3,7 @@ var template = require("./template");
 
 exports.home = function (request, response, queryData) {
 	connection.query(`SELECT * FROM topic`, (err, topics) => {
-		if (err) throw err; // if error occurs, console prints the error and this app stops.
+		if (err) return next(err); // if error occurs, console prints the error and this app stops.
 		connection.query(`SELECT * FROM author`, (err2, authors) => {
 			const title = "Welcome";
 			const list = template.getList(topics); // topics is an array of objects.
@@ -12,7 +12,7 @@ exports.home = function (request, response, queryData) {
 				title,
 				list,
 				userTable,
-				`<form action="create_author_process" method="post">
+				`<form action="/author/create_process" method="post">
                     <p>
                         <input type="text" name="name" placeholder="Name" />
                     </p>
@@ -21,7 +21,7 @@ exports.home = function (request, response, queryData) {
                     </p>
                     <div>
                         <input type="submit" value="Submit" />
-                        <a href="/update_author">Update/Delete</a>
+                        <a href="/author/update">Update/Delete</a>
                     </div>
                 </form>`
 			);
@@ -41,7 +41,7 @@ exports.createProcess = function (req, response, queryData) {
 		`INSERT INTO author (name, profile) VALUES (?, ?)`,
 		[name, profile],
 		(err, results) => {
-			if (err) throw err;
+			if (err) return next(err);
 
 			// response.writeHead(302, {
 			// 	Location: `/author`,
@@ -55,7 +55,7 @@ exports.createProcess = function (req, response, queryData) {
 
 exports.update = function (request, response, queryData) {
 	connection.query(`SELECT * FROM topic`, (err, topics) => {
-		if (err) throw err; // if error occurs, console prints the error and this app stops.
+		if (err) return next(err);
 		connection.query(`SELECT * FROM author`, (err2, authors) => {
 			const title = "Welcome";
 			const list = template.getList(topics); // topics is an array of objects.
@@ -83,7 +83,7 @@ exports.updateProcess = function (req, response, queryData) {
 		`UPDATE author SET name = ?, profile = ? WHERE id = ?`,
 		[name, profile, id],
 		(err) => {
-			if (err) throw err;
+			if (err) return next(err);
 
 			// response.writeHead(302, {
 			// 	Location: `/author`,
@@ -99,7 +99,7 @@ exports.deleteProcess = function (request, response, queryData) {
 	// `DELETE FROM author WHERE id = ${queryData.id}` => SQL injection attacks can occur through queryString manipulation.
 	// ${connection.escape(queryData.id)} => escape() method is one of the ways to avoid SQL injection attack. (embrace user's input with '')
 	connection.query(`DELETE FROM author WHERE id = ?`, [queryData.id], (err) => {
-		if (err) throw err;
+		if (err) return next(err);
 
 		response.writeHead(302, { Location: `/author` });
 		response.end();
