@@ -5,13 +5,15 @@ const port = 3000;
 
 const bodyParser = require("body-parser"); // request body parser
 const compression = require("compression"); // response get compressed for cutting network cost
+const requestTime = require("./src/requestTime");
 
-// app's top-level generic use of middlewares
+// app's top-level generic use of middle wares
 app.use(compression({ filter: shouldCompress }));
 const urlencodedParser = bodyParser.urlencoded({ extended: false }); // parse application/x-www-form-urlencoded
 const jsonParser = bodyParser.json(); // parse application/json
 app.use(urlencodedParser);
 app.use(jsonParser);
+app.use(requestTime());
 
 // services
 var topic = require("./src/topic");
