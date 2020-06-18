@@ -9,6 +9,11 @@ const compression = require("compression"); // response get compressed for cutti
 // middle ware by express
 const static = express.static("img");
 
+// routers as middlewares
+const indexRouter = require("./router/index");
+const topicRouter = require("./router/topic");
+const authorRouter = require("./router/author");
+
 // app's top-level generic use of middle wares
 app.use(compression());
 const urlencodedParser = bodyParser.urlencoded({ extended: false }); // parse application/x-www-form-urlencoded
@@ -24,39 +29,9 @@ app.use((req, res, next) => {
 	// next('route'); call next router's middle ware
 });
 
-// services
-var topic = require("./src/topic");
-var user = require("./src/user");
-
-// routing
-// pretty url without queryString, which contributes to SEO.
-app.get("/", (req, res) => res.send(topic.home(req, res)));
-app.get("/:id", (req, res) => {
-	console.log(req.params);
-	res.send(topic.page(req, res));
-});
-app.get("/topic/create", (req, res) => res.send(topic.create(req, res)));
-app.post("/topic/create_process", (req, res) =>
-	res.redirect(302, topic.createProcess(req, res))
-);
-app.get("/topic/update", (req, res) => res.send(topic.update(req, res)));
-app.post("/topic/update_process", (req, res) =>
-	res.redirect(topic.updateProcess(req, res))
-);
-app.post("/topic/delete_process", (req, res) =>
-	res.redirect(topic.deleteProcess(req, res))
-);
-app.get("/author", (req, res) => res.send(user.home(req, res)));
-app.post("/author/create_process", (req, res) =>
-	res.redirect(user.createProcess(req, res))
-);
-app.get("/author/update", (req, res) => res.send(user.update(req, res)));
-app.post("/author/update_process", (req, res) =>
-	res.redirect(302, user.updateProcess(req, res))
-);
-app.get("/author/delete_process", (req, res) =>
-	res.redirect(302, user.deleteProcess(req, res))
-);
+app.use("/", indexRouter);
+app.use("/topic", topicRouter);
+app.use("/author", authorRouter);
 
 // 404 eror
 app.use((req, res, next) => {
