@@ -24,6 +24,8 @@ And see also [additional considerations](https://expressjs.com/en/advanced/best-
 
 Express 2.x and 3.x are no longer maintained. Do not use them! If you haven’t moved to version 4, follow the [migration guide](https://expressjs.com/en/guide/migrating-4.html).
 
+Check [updates](https://expressjs.com/en/advanced/security-updates.html).
+
 <br>
 
 ## Use TLS
