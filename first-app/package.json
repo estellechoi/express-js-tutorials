@@ -1,21 +1,21 @@
 {
-  "name": "nodejs-webapp",
-  "version": "1.0.0",
-  "description": "",
-  "main": "main.js",
-  "directories": {
-    "lib": "lib"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "body-parser": "^1.19.0",
-    "compression": "^1.7.4",
-    "express": "^4.17.1",
-    "mysql": "^2.18.1",
-    "sanitize-html": "^1.20.1"
-  }
+	"name": "nodejs-webapp",
+	"version": "1.0.0",
+	"description": "",
+	"main": "main.js",
+	"directories": {
+		"lib": "lib"
+	},
+	"scripts": {
+		"test": "snyk test"
+	},
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"body-parser": "^1.19.0",
+		"compression": "^1.7.4",
+		"express": "^4.17.1",
+		"mysql": "^2.18.1",
+		"sanitize-html": "^1.20.1"
+	}
 }
