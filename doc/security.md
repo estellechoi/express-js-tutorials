@@ -152,7 +152,13 @@ If you want to stay more secure, consider [Snyk](https://snyk.io/).
 npm install snyk -g
 ```
 
-Use this command to test your application for vulnerabilities.
+Use this command to authenticate the CLI.
+
+```
+snyk auth
+```
+
+And test your application for vulnerabilities.
 
 ```
 snyk test
