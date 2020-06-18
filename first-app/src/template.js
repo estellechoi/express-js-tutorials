@@ -1,5 +1,5 @@
 // 객체 리터럴 패턴으로 연관된 변수와 함수를 하나의 객체에 담아보자.
-var template = {
+const template = {
 	getHTML: function (title, list, body, crud) {
 		// Template Literals
 		return `
@@ -81,7 +81,7 @@ var template = {
 		var list = "<ul>";
 		data.forEach(function (item) {
 			// var li = `<li><a href="/${item}">${item}</a></li>`;
-			var li = `<li><a href="/${item.id}">${item.title}</a></li>`;
+			var li = `<li><a href="/topic/${item.id}">${item.title}</a></li>`;
 			list += li;
 		});
 		list = list + "</ul>";
@@ -118,13 +118,13 @@ var template = {
 					`;
 		data.forEach((item) => {
 			var tr = `<tr>
-						<form action="/update_author_process" method="post">
+						<form action="/author/update_process" method="post">
 							<input type="hidden" name="id" value="${item.id}"/>
 							<td>${item.id}</td>
 							<td><input type="text" name="name" placeholder="Name" value="${item.name}"/></td>
 							<td><input type="text" name="profile" placeholder="Profile" value="${item.profile}"/></td>
 							<td><input type="submit" value="Update" /></td>
-							<td><a href="/delete_author_process/${item.id}">X</a></td>
+							<td><a href="/author/delete_process/${item.id}">X</a></td>
 						</form>
 					</tr>`;
 			table += tr;
