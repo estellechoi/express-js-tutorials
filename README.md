@@ -1,2 +1,3 @@
-# express-js-tutorials
-𝘏𝘰𝘸 𝘵𝘰 𝘶𝘴𝘦 𝘦𝘹𝘱𝘳𝘦𝘴𝘴
+# Quick Seeing of This Repo
+
+> The goal of this repository is to make my codes easy to read and manage via modular programming using Express. The content is based on [Express official documentation](https://expressjs.com/).
