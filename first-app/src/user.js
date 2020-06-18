@@ -1,5 +1,5 @@
-var connection = require("./db");
-var template = require("./template");
+const connection = require("./db");
+const template = require("./template");
 
 exports.home = function (request, response, queryData) {
 	connection.query(`SELECT * FROM topic`, (err, topics) => {

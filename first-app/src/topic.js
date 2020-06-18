@@ -1,7 +1,7 @@
-var path = require("path");
-var connection = require("./db");
-var template = require("./template");
-var sanitizeHtml = require("sanitize-html"); // remove dangerous scripting part user created.
+const path = require("path");
+const connection = require("./db");
+const template = require("./template");
+const sanitizeHtml = require("sanitize-html"); // remove dangerous scripting part user created.
 
 exports.home = function (req, res) {
 	connection.query(`SELECT * FROM topic`, (err, results) => {
@@ -128,7 +128,7 @@ exports.createProcess = function (req, res) {
 								// 	Location: `/?id=${results.insertId}`,
 								// });
 								// res.end();
-								return `/${results.insertId}`;
+								return `/topic/${results.insertId}`;
 							}
 						);
 					}
@@ -197,7 +197,7 @@ exports.updateProcess = function (req, res) {
 			// 	Location: `/?id=${idFiltered}`,
 			// });
 			// res.end();
-			return `/${idFiltered}`;
+			return `/topic/${idFiltered}`;
 		}
 	);
 };
@@ -211,6 +211,6 @@ exports.deleteProcess = function (req, res) {
 		if (err) return next(err);
 		// res.writeHead(302, { Location: `/` });
 		// res.end();
-		return "/";
+		return "/topic";
 	});
 };
