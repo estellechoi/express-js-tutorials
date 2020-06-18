@@ -7,3 +7,16 @@
 ## Topics
 
 - [Routing](https://github.com/estellechoi/express-js-tutorials/blob/master/doc/routing.md)
+
+## Security
+
+- [Production Best Practices: Security](https://expressjs.com/en/advanced/best-practice-security.html)
+  > Follow [updates](https://expressjs.com/en/advanced/security-updates.html)
+
+<br>
+
+---
+
+### Reference
+
+- [Express](https://expressjs.com/)
