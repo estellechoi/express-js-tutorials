@@ -148,11 +148,13 @@ npm audit
 
 If you want to stay more secure, consider [Snyk](https://snyk.io/).
 
+Install Snyk.
+
 ```
 npm install snyk -g
 ```
 
-Use this command to authenticate the CLI.
+Authenticate the CLI.
 
 ```
 snyk auth
