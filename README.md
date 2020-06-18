@@ -8,6 +8,7 @@
 
 - [Routing](https://github.com/estellechoi/express-js-tutorials/blob/master/doc/routing.md)
 - [Security](https://github.com/estellechoi/express-js-tutorials/blob/master/doc/security.md)
+- [Express application generator](https://github.com/estellechoi/express-js-tutorials/blob/master/doc/expressGenerator.md)
 
 <br>
 
