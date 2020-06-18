@@ -2,6 +2,8 @@
 
 > This markdown page is Korean/English mixed entirely depending on my personal need, not readers' possible expectation. Just the reorderd, added, and removed from reference documents, or some parts are the English-Korean translated version. But, maybe helpful for some people.
 
+<br>
+
 ## What is Routing ?
 
 `라우팅`이란 클라이언트의 요청에 대해 애플리케이션 서버에서 어떤 응답을 줄지 지정하는 것이다. 클라이언트가 요청을 보내면 요청 경로와 메소드에 맞게 라우팅된 결과를 응답한다.
@@ -33,13 +35,15 @@ app.delete("/user", (req, res) => {
 
 <br>
 
-## `app.METHOD` of Express Routing
+## `app.METHOD`
 
 - You define routing using methods of the Express `app` object that correspond to HTTP methods.
 - Also use `app.all()` to handle all HTTP methods.
 - Or `app.use()` to specify middleware as the callback function.
 
   > See [Using middleware](https://expressjs.com/en/guide/using-middleware.html).
+
+<br>
 
 ### `app.route()`
 
@@ -149,6 +153,8 @@ If none of these methods are called from a route handler, the client request wil
 - `res.send()` : Send a response of various types.
 - `res.sendFile()` : Send a file as an octet stream.
 - `res.sendStatus()` : Set the response status code and send its string representation as the response body.
+
+<br>
 
 ---
 
