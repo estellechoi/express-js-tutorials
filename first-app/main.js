@@ -6,21 +6,26 @@ const port = 3000;
 const bodyParser = require("body-parser"); // request body parser
 const compression = require("compression"); // response get compressed for cutting network cost
 
-// middle ware by express
-const static = express.static("img");
+const sessionConfig = require("./src/session");
 
 // routers as middlewares
 const indexRouter = require("./router/index");
 const topicRouter = require("./router/topic");
 const authorRouter = require("./router/author");
 
-// app's top-level generic use of middle wares
+// app's top-level generic use of middlewares
 app.use(compression());
 const urlencodedParser = bodyParser.urlencoded({ extended: false }); // parse application/x-www-form-urlencoded
 const jsonParser = bodyParser.json(); // parse application/json
 app.use(urlencodedParser);
 app.use(jsonParser);
-app.use("/public", static); // virtual path prefix
+
+// middleware by express
+// virtual path prefix 'static' to redirect to real path 'public'
+app.use("/static", express.static("/public"));
+
+// req.session property is added by using express-session middleware.
+app.use(sessionConfig);
 
 // self-made middle ware
 app.use((req, res, next) => {
