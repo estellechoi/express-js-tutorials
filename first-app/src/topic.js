@@ -3,7 +3,7 @@ const connection = require("./db");
 const template = require("./template");
 const sanitizeHtml = require("sanitize-html"); // remove dangerous scripting part user created.
 
-exports.home = function (req, res) {
+exports.home = (req, res) => {
 	connection.query(`SELECT * FROM topic`, (err, results) => {
 		if (err) return next(err);
 		// Errors will be passed to Express.
@@ -22,7 +22,9 @@ exports.home = function (req, res) {
 		);
 		// res.writeHead(200);
 		// res.end(html);
-		return html;
+		// console.log(html);
+		res.status(200).send(html);
+		// return html;
 	});
 };
 
@@ -55,9 +57,8 @@ exports.page = function (req, res) {
                             <input type="submit" value="delete">
                         </form>`
 				);
-				// res.writeHead(200);
-				// res.end(html);
-				return html;
+				res.status(200).send(html);
+				// return html;
 			}
 		);
 	});
@@ -86,7 +87,8 @@ exports.create = function (req, res) {
 		);
 		// res.writeHead(200); // 응답코드
 		// res.end(html); // template 을 응답
-		return html;
+		// return html;
+		res.status(200).send(html);
 	});
 };
 
@@ -114,7 +116,8 @@ exports.createProcess = function (req, res) {
 							// return res.writeHead(302, {
 							// 	Location: `/create`,
 							// });
-							return "/topic/create";
+							// return "/topic/create";
+							res.status(302).redirect("/topic/aceert");
 
 						const userId = results[0].id;
 
@@ -128,7 +131,8 @@ exports.createProcess = function (req, res) {
 								// 	Location: `/?id=${results.insertId}`,
 								// });
 								// res.end();
-								return `/topic/${results.insertId}`;
+								// return `/topic/${results.insertId}`;
+								res.status(302).redirect(`/topic/${results.insertId}`);
 							}
 						);
 					}
@@ -170,10 +174,11 @@ exports.update = function (req, res) {
 					// res.writeHead(200); // 응답코드
 					// res.end(html); // template 을 응답
 					// return;
-					return html;
+					// return html;
+					res.status(200).send(html);
 				}
-				return "";
-				// res.writeHead(200); // 응답코드
+				// return "";
+				res.status(200).send("");
 			}
 		);
 	});
@@ -197,7 +202,8 @@ exports.updateProcess = function (req, res) {
 			// 	Location: `/?id=${idFiltered}`,
 			// });
 			// res.end();
-			return `/topic/${idFiltered}`;
+			// return `/topic/${idFiltered}`;
+			res.status(302).direct(`/?id=${idFiltered}`);
 		}
 	);
 };
@@ -211,6 +217,7 @@ exports.deleteProcess = function (req, res) {
 		if (err) return next(err);
 		// res.writeHead(302, { Location: `/` });
 		// res.end();
-		return "/topic";
+		// return "/topic";
+		res.status(302).direct("/topic");
 	});
 };
