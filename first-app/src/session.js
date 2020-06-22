@@ -1,32 +1,33 @@
-const express = require("express");
-const parseurl = require("parseurl");
 const session = require("express-session");
+const MySQLStore = require("express-mysql-session")(session);
+const dbConnection = require("./db");
 
-const app = express();
-
-// req.session property is added by using session middleware.
-app.use(
-	session({
-		name: "connect.sid", // default
-		secret: "keyboard cat",
-		resave: false,
-		saveUninitialized: true,
-	})
+// set session store.
+const sessionStore = new MySQLStore(
+	{
+		host: "localhost",
+		port: 3306,
+		user: "temp_user",
+		password: "yk0425",
+		database: "express_mysql_session", // ignored if db connection already has specified database.
+		schema: {
+			tableName: "sessions",
+			columnNames: {
+				session_id: "session_id",
+				expires: "expires",
+				data: "data",
+			},
+		},
+	},
+	dbConnection // using existing db connection or pool
 );
 
-// middleware declared
-app.use((req, res, next) => {
-	if (!req.session.views) req.session.views = {};
-	const pathname = parseurl(req).pathname; // url pathname
-	req.session.views[pathname] = (req.session.views[pathname] || 0) + 1;
-
-	next();
+const sessionConfig = session({
+	name: "connect.sid", // default value for name property
+	secret: "keyboard cat",
+	resave: false,
+	saveUninitialized: true,
+	store: sessionStore,
 });
 
-app.get("/home", function (req, res, next) {
-	res.send("you viewed this page " + req.session.views["/home"] + " times");
-});
-
-app.listen(3000, () =>
-	console.log(`Example app listening at http://localhost:3000`)
-);
+module.exports = sessionConfig;
