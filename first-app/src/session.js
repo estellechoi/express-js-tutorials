@@ -23,11 +23,13 @@ const sessionStore = new MySQLStore(
 );
 
 const sessionConfig = session({
-	name: "connect.sid", // default value for name property
+	name: "connect.sid", // default cookie name for session. Check inside 'Set-Cookie' response header.
 	secret: "keyboard cat",
 	resave: false,
 	saveUninitialized: true,
 	store: sessionStore,
+	secure: true, // only https
+	HttpOnly: true, // cannot access to session cookie using script language.
 });
 
 module.exports = sessionConfig;
