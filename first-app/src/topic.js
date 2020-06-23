@@ -2,6 +2,7 @@ const path = require("path");
 const connection = require("./db");
 const template = require("./template");
 const sanitizeHtml = require("sanitize-html"); // remove dangerous scripting part user created.
+const auth = require("./auth");
 
 exports.home = (req, res) => {
 	connection.query(`SELECT * FROM topic`, (err, results) => {
@@ -18,7 +19,8 @@ exports.home = (req, res) => {
 			`<h2>${title}</h2>
 			<div><img src="/img/hello.jpg" style="width:300px;display:block;margin:5px auto;"/></div>
 			<p>${data}</p>`,
-			`<a href="/topic/create">create</a>`
+			`<a href="/topic/create">create</a>`,
+			auth.isOnline(req)
 		);
 		// res.writeHead(200);
 		// res.end(html);
@@ -55,7 +57,8 @@ exports.page = function (req, res) {
                         <form action="/topic/delete_process" method="post">
                             <input type="hidden" name="id" value="${queryData.id}">
                             <input type="submit" value="delete">
-                        </form>`
+						</form>`,
+					auth.isOnline(req)
 				);
 				res.status(200).send(html);
 				// return html;
@@ -83,7 +86,8 @@ exports.create = function (req, res) {
                 <input type="submit" value="ok"><br>
             </form>
             `,
-			title
+			title,
+			auth.isOnline(req)
 		);
 		// res.writeHead(200); // 응답코드
 		// res.end(html); // template 을 응답
@@ -169,7 +173,8 @@ exports.update = function (req, res) {
                             <input type="submit" value="ok"><br>
                         </form>
                         `,
-						"Update"
+						"Update",
+						auth.isOnline(req)
 					);
 					// res.writeHead(200); // 응답코드
 					// res.end(html); // template 을 응답
