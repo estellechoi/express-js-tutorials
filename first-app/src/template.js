@@ -1,6 +1,6 @@
 // 객체 리터럴 패턴으로 연관된 변수와 함수를 하나의 객체에 담아보자.
 const template = {
-	getHTML: function (title, list, body, crud) {
+	getHTML: function (title, list, body, crud, isOnine) {
 		// Template Literals
 		return `
 				<!doctype html>
@@ -68,6 +68,11 @@ const template = {
 					</style>
 				</head>
 				<body>
+					${
+						isOnine
+							? '<a href="/auth/signout_process">Sign Out</a>'
+							: '<a href="/auth/signin">Sign In</a>'
+					}
 					<h1><a href="/">Welcome to CEPO</a></h1>
 					<a href="/author">author</a>
 					${list}
