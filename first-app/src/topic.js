@@ -1,5 +1,5 @@
 const path = require("path");
-const connection = require("./db");
+const connection = require("../lib/db");
 const template = require("./template");
 const sanitizeHtml = require("sanitize-html"); // remove dangerous scripting part user created.
 const auth = require("./auth");
