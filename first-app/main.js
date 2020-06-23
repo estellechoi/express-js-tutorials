@@ -33,7 +33,7 @@ app.use((req, res, next) => {
 app.use("/static", express.static("/public"));
 
 // req.session property is added by using express-session middleware.
-const sessionConfig = require("./src/session");
+const sessionConfig = require("./lib/session");
 app.use(sessionConfig);
 
 // this middleware offers req.flash() method.
