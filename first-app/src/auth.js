@@ -1,6 +1,6 @@
 const path = require("path");
 const connection = require("../lib/db");
-const template = require("./template");
+const template = require("../lib/template");
 
 exports.isOnline = (req) => {
 	// console.log(req.session);
