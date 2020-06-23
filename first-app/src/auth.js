@@ -1,5 +1,5 @@
 const path = require("path");
-const connection = require("./db");
+const connection = require("../lib/db");
 const template = require("./template");
 
 exports.isOnline = (req) => {
