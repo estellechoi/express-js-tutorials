@@ -1,4 +1,4 @@
-const connection = require("./db");
+const connection = require("../lib/db");
 const template = require("./template");
 
 exports.home = function (request, response, queryData) {
