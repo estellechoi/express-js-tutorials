@@ -5,6 +5,9 @@ const sanitizeHtml = require("sanitize-html"); // remove dangerous scripting par
 const auth = require("./auth");
 
 exports.home = (req, res) => {
+	// req.user property is created by calling passport.deserializeUser
+	console.log("req.user : ", req.user);
+
 	connection.query(`SELECT * FROM topic`, (err, results) => {
 		if (err) return next(err);
 		// Errors will be passed to Express.
