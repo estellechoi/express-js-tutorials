@@ -1,6 +1,6 @@
 const session = require("express-session");
 const MySQLStore = require("express-mysql-session")(session);
-const dbConnection = require("./db");
+const dbConnection = require("../lib/db");
 
 // set session store.
 const sessionStore = new MySQLStore(
