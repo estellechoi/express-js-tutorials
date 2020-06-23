@@ -4,17 +4,26 @@ const template = require("./template");
 
 exports.isOnline = (req) => {
 	// console.log(req.session);
-	return req.session.online;
+	// if (req.session && req.session.online) return req.session.online;
+
+	// refactored with passport.js
+	if (req.user) return true;
+	return false;
 };
 
 exports.signin = (req, res) => {
+	const flashMsg = req.flash();
+	let errorMsg = "";
+	if (flashMsg.err && flashMsg.err.length) errorMsg = flashMsg.err[0];
+
 	const title = "Sign In";
 	const html = template.getHTML(
 		title,
 		"",
 		`<h2>${title}</h2>	                 
         <a href="/">Go Home</a>
-        <form action="/auth/signin_process" method="post">
+		<form action="/auth/signin_process" method="post">
+			<label>${errorMsg}</label>
             <p>
                 <input type="text" name="email" placeholder="Email">
             </p>
@@ -100,8 +109,15 @@ exports.signupProcess = (req, res) => {
 };
 
 exports.signoutProcess = (req, res) => {
-	// the session row is deleted and a new row with new session id is inserted automatically in mysql table.
-	req.session.destroy((err) => {
-		res.status(200).redirect("/");
-	});
+	// codes added as refactored with passport.js
+	// this code deletes 'user' property of request object.
+	// alse the passport:{user: 1} -> passport:{} in db session table.
+	req.logout();
+
+	// destroy() method removes the current session.
+	// the session row is deleted and a new row with new session id is inserted automatically in mysql table without passport.js.
+	req.session.destroy((err) => res.status(200).redirect("/"));
+
+	// save() method saves the current status of session.
+	// req.session.save((err) => res.status(200).redirect("/"));
 };
