@@ -12,6 +12,7 @@ const sessionConfig = require("./src/session");
 const indexRouter = require("./router/index");
 const topicRouter = require("./router/topic");
 const authorRouter = require("./router/author");
+const authRouter = require("./router/auth");
 
 // app's top-level generic use of middlewares
 app.use(compression());
@@ -37,6 +38,7 @@ app.use((req, res, next) => {
 app.use("/", indexRouter);
 app.use("/topic", topicRouter);
 app.use("/author", authorRouter);
+app.use("/auth", authRouter);
 
 // 404 eror
 app.use((req, res, next) => {
